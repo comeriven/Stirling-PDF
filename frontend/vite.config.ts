@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import path from 'path';
 
 export default defineConfig(({ mode }) => {
 
@@ -22,6 +23,7 @@ export default defineConfig(({ mode }) => {
     const requiredEnvVars = [
       'VITE_SAAS_SERVER_URL',
       'VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY',
+      'VITE_SAAS_BACKEND_API_URL',
     ];
 
     const missingVars = requiredEnvVars.filter(varName => !env[varName]);
@@ -115,5 +117,10 @@ export default defineConfig(({ mode }) => {
       },
     },
     base: env.RUN_SUBPATH ? `/${env.RUN_SUBPATH}` : './',
+    resolve: {
+      alias: {
+        'posthog-js/react': path.resolve(__dirname, 'node_modules/posthog-js/react/dist/esm/index.js'),
+      },
+    },
   };
 });
