@@ -28,6 +28,7 @@ export const CONVERSION_ENDPOINTS = {
   'pdf-office-presentation': '/api/v1/convert/pdf/presentation',
   'pdf-office-text': '/api/v1/convert/pdf/text',
   'pdf-csv': '/api/v1/convert/pdf/csv',
+  'pdf-xlsx': '/api/v1/convert/pdf/xlsx',
   'pdf-markdown': '/api/v1/convert/pdf/markdown',
   'pdf-html': '/api/v1/convert/pdf/html',
   'pdf-xml': '/api/v1/convert/pdf/xml',
@@ -54,6 +55,7 @@ export const ENDPOINT_NAMES = {
   'pdf-office-presentation': 'pdf-to-presentation',
   'pdf-office-text': 'pdf-to-text',
   'pdf-csv': 'pdf-to-csv',
+  'pdf-xlsx': 'pdf-to-xlsx',
   'pdf-markdown': 'pdf-to-markdown',
   'pdf-html': 'pdf-to-html',
   'pdf-xml': 'pdf-to-xml',
@@ -69,6 +71,31 @@ export const ENDPOINT_NAMES = {
   'text-editor-pdf': 'text-editor-to-pdf'
 } as const;
 
+/** Maps conversion endpoint → [i18n key, English fallback] for display names */
+export const ENDPOINT_I18N: Record<string, [string, string]> = {
+  'img-to-pdf':          ['imageToPDF.header',         'Image → PDF'],
+  'html-to-pdf':         ['HTMLToPDF.header',          'HTML → PDF'],
+  'markdown-to-pdf':     ['MarkdownToPDF.header',      'Markdown → PDF'],
+  'pdf-to-img':          ['pdfToImage.title',          'PDF → Image'],
+  'pdf-to-word':         ['PDFToWord.header',          'PDF → Word'],
+  'pdf-to-presentation': ['PDFToPresentation.header',  'PDF → Presentation'],
+  'pdf-to-text':         ['PDFToText.header',          'PDF → Text'],
+  'pdf-to-csv':          ['PDFToCSV.header',           'PDF → CSV'],
+  'pdf-to-xlsx':         ['PDFToXLSX.header',          'PDF → Excel'],
+  'pdf-to-markdown':     ['PDFToMarkdown.header',      'PDF → Markdown'],
+  'pdf-to-html':         ['PDFToHTML.header',          'PDF → HTML'],
+  'pdf-to-xml':          ['PDFToXML.header',           'PDF → XML'],
+  'pdf-to-pdfa':         ['pdfToPDFA.header',          'PDF → PDF/A'],
+  'file-to-pdf':         ['convert.fileToPdf',         'Office/Document → PDF'],
+  'cbr-to-pdf':          ['convert.cbrToPdf',          'CBR → PDF'],
+  'cbz-to-pdf':          ['convert.cbzToPdf',          'CBZ → PDF'],
+  'eml-to-pdf':          ['convert.emlToPdf',          'Email → PDF'],
+  'ebook-to-pdf':        ['convert.ebookToPdf',        'eBook → PDF'],
+  'svg-to-pdf':          ['convert.svgToPdf',          'SVG → PDF'],
+  'pdf-to-cbr':          ['convert.pdfToCbr',          'PDF → CBR'],
+  'pdf-to-cbz':          ['convert.pdfToCbz',          'PDF → CBZ'],
+  'pdf-to-epub':         ['convert.pdfToEpub',         'PDF → EPUB'],
+};
 
 // Grouped file extensions for dropdowns
 export const FROM_FORMAT_OPTIONS = [
@@ -116,6 +143,7 @@ export const TO_FORMAT_OPTIONS = [
   { value: 'cbz', label: 'CBZ', group: 'Archive' },
   { value: 'cbr', label: 'CBR', group: 'Archive' },
   { value: 'csv', label: 'CSV', group: 'Spreadsheet' },
+  { value: 'xlsx', label: 'XLSX', group: 'Spreadsheet' },
   { value: 'pptx', label: 'PPTX', group: 'Presentation' },
   { value: 'odp', label: 'ODP', group: 'Presentation' },
   { value: 'txt', label: 'TXT', group: 'Text' },
@@ -137,7 +165,7 @@ export const TO_FORMAT_OPTIONS = [
 export const CONVERSION_MATRIX: Record<string, string[]> = {
   'any': ['pdf'], // Mixed files always convert to PDF
   'image': ['pdf'], // Multiple images always convert to PDF
-  'pdf': ['png', 'jpg', 'gif', 'tiff', 'bmp', 'webp', 'docx', 'odt', 'pptx', 'odp', 'csv', 'txt', 'rtf', 'md', 'html', 'xml', 'pdfa', 'pdfx', 'cbz', 'cbr', 'epub', 'azw3'],
+  'pdf': ['png', 'jpg', 'gif', 'tiff', 'bmp', 'webp', 'docx', 'odt', 'pptx', 'odp', 'csv', 'xlsx', 'txt', 'rtf', 'md', 'html', 'xml', 'pdfa', 'pdfx', 'cbz', 'cbr', 'epub', 'azw3'],
   'cbz': ['pdf'],
   'docx': ['pdf'], 'doc': ['pdf'], 'odt': ['pdf'],
   'xlsx': ['pdf'], 'xls': ['pdf'], 'ods': ['pdf'],
@@ -162,6 +190,7 @@ export const EXTENSION_TO_ENDPOINT: Record<string, Record<string, string>> = {
     'docx': 'pdf-to-word', 'odt': 'pdf-to-word',
     'pptx': 'pdf-to-presentation', 'odp': 'pdf-to-presentation',
     'csv': 'pdf-to-csv',
+    'xlsx': 'pdf-to-xlsx',
     'txt': 'pdf-to-text', 'rtf': 'pdf-to-text', 'md': 'pdf-to-markdown',
     'html': 'pdf-to-html', 'xml': 'pdf-to-xml',
     'pdfa': 'pdf-to-pdfa',
